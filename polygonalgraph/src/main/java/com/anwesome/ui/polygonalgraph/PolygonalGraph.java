@@ -21,14 +21,15 @@ public class PolygonalGraph extends View {
         this.n = Math.max(this.n,n);
     }
     public void onDraw(Canvas canvas) {
+        paint.setStyle(Paint.Style.FILL);
         paint.setColor(Color.parseColor("#b71c1c"));
         Path path = new Path();
-        int r = canvas.getWidth()/2;
+        int r = canvas.getWidth()/3;
         canvas.save();
         canvas.translate(canvas.getWidth()/2,canvas.getHeight()/2);
         canvas.rotate(deg);
-        for(int i=0;i<n;i++) {
-            float x = (float)(r*Math.cos(i*Math.PI/180)),y = (float)(r*Math.sin(i*Math.PI/180));
+        for(int i=0;i<=n;i++) {
+            float x = (float)(r*Math.cos(i*2*Math.PI/n)),y = (float)(r*Math.sin(i*2*Math.PI/n));
             if(i == 0) {
                 path.moveTo(x,y);
             }
@@ -37,6 +38,7 @@ public class PolygonalGraph extends View {
             }
             canvas.drawCircle(x,y,r/4,paint);
         }
+        paint.setStyle(Paint.Style.STROKE);
         canvas.drawPath(path,paint);
         canvas.restore();
         if(shouldAnimate) {
@@ -46,7 +48,7 @@ public class PolygonalGraph extends View {
                     deg = 0;
                     shouldAnimate = false;
                 }
-                Thread.sleep(30);
+                Thread.sleep(60);
                 invalidate();
             } catch (Exception ex) {
 
