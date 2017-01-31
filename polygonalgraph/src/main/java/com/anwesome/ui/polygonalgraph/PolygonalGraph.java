@@ -14,11 +14,15 @@ import android.view.View;
 public class PolygonalGraph extends View {
     private boolean shouldAnimate = false;
     private int n = 3;
+    private OnClickListener onClickListener;
     private float deg=0;
     private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     public PolygonalGraph(Context context,int n) {
         super(context);
         this.n = Math.max(this.n,n);
+    }
+    public void setOnClickListener(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
     }
     public void onDraw(Canvas canvas) {
         paint.setStyle(Paint.Style.FILL);
@@ -47,6 +51,9 @@ public class PolygonalGraph extends View {
                 if(deg == 360) {
                     deg = 0;
                     shouldAnimate = false;
+                    if(onClickListener != null) {
+                        onClickListener.onClick(this);
+                    }
                 }
                 Thread.sleep(60);
                 invalidate();
